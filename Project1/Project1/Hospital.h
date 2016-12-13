@@ -9,6 +9,7 @@
 
 class Hospital {
 public:
+	std::vector<std::string> citizens;
 	Hospital(){
 		//read in names of residents from file loctated in Repo folder
 		//working diretory many need to be changed on other devices
@@ -21,7 +22,18 @@ public:
 		arrival_rate = rate / 60.0;
 		//collect num doc and nures and to respective vectors
 		num_doctor = read_int("Please enter the number of doctors: ", 0, INT_MAX);
-		num_nurse = read_int("Please enter the mnumber of nurses: ", 0, INT_MAX);
+		num_nurse = read_int("Please enter the number of nurses: ", 0, INT_MAX);
+	}
+	void run_simulation() {
+		for (int clock = 0; clock < 10080; clock++) {
+			incoming_patients(clock);
+			assign_patients(clock);
+			treat_patients(clock);
+		}
+	}
+	void show_stats() {
+		std::cout << "Average visit time in hospital: " << total_visit_time / total_treated << std::endl;
+		std::cout << "Who would you like to know more about?" << std::endl;
 	}
 
 
@@ -34,7 +46,8 @@ private:
 	std::deque <Patient> nurses;
 	int num_nurse;
 	double arrival_rate;
-	std::vector<std::string> citizens;
+	int total_visit_time;
+	int total_treated;
 
 
 	int read_int(const std::string &prompt, int low, int high)
@@ -68,15 +81,15 @@ private:
 			double num2 = double(rand()) / RAND_MAX;
 			if (num2 < 0.1) {
 				int triage = rand() / (RAND_MAX / 4) + 16;
-				crit_patients->push(Patient(citizens[rand() / (RAND_MAX / 2000)], int(num2), clock));
+				crit_patients->push(Patient(citizens[rand()/(RAND_MAX)], triage, rand() / (RAND_MAX / 19) + 1, clock));
 			}
 			else if (num2 < 0.2) {
 				int triage = rand() / (RAND_MAX / 4) + 11;
-				crit_patients->push(Patient(citizens[rand() / (RAND_MAX / 2000)], int(num2), clock));
+				crit_patients->push(Patient("fred", triage, (RAND_MAX / 19) + 1, clock));
 			}
 			else {
 				int triage = rand() / (RAND_MAX / 9) + 1;
-				std_patients->push(Patient(citizens[rand() / (RAND_MAX / 2000)], int(num2), clock));
+				std_patients->push(Patient("Joe", triage, (RAND_MAX / 9) + 1, clock));
 			}
 		}
 	}
@@ -105,24 +118,23 @@ private:
 		for (int i = 0; i < num_doctor; i++) {
 			doctors[i].treat();
 			if (doctors[i].get_treat_time() < 1) {
+				total_visit_time += (clock - doctors[i].get_arrival_time());
+				doctors[i].add_visit(clock);
+				treated_patients.insert(make_pair(doctors[i].get_name(), doctors[i]));
 				doctors.erase(doctors.begin() + i);
 			}
 		}
 		for (int i = 0; i < num_nurse; i++) {
 			nurses[i].treat();
 			if (nurses[i].get_treat_time() < 1) {
+				total_visit_time += (clock - nurses[i].get_arrival_time());
+				nurses[i].add_visit(clock);
+				treated_patients.insert(make_pair(nurses[i].get_name(), nurses[i]));
 				nurses.erase(nurses.begin() + i);
 			}
 		}
 	}
 
-		void run_simulation() {
-			for (int clock = 0; clock < 10080; clock++) {
-				incoming_patients(clock);
-				assign_patients(clock);
-				treat_patients(clock);
-			}
-		}
 		
 };
 
