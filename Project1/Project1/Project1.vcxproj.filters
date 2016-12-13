@@ -15,13 +15,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CarGiver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Hospital.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Patient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CareGiver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
