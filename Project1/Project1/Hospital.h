@@ -2,6 +2,7 @@
 #define _Hostital_
 #include <queue>
 #include "Patient.h"
+#include "CarGiver.h"
 
 class Hospital {
 public:

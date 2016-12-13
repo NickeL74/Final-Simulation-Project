@@ -4,15 +4,15 @@
 
 class Patient {
 private:
-	string name;
-	int tirage_num;
+	std::string name;
+	int triage_num;
 	int arrival_time;
 
 public:
 	//Constructor
-	Patient(string pname, int triage, int p_arrival_time) {
+	Patient(std::string pname, int triage, int p_arrival_time) {
 		name = pname;
-		triage_num = tirage;
+		triage_num = triage;
 		arrival_time = p_arrival_time;
 	}
 	//Accessor for triage_num
@@ -26,11 +26,11 @@ public:
 	}
 
 	//Overloaded < operator for priority queue
-	bool operator<(const Patient &other) {
-		if (triage< other.get_triage_num()) {
+	bool operator<(Patient &other) {
+		if (triage_num< other.get_triage_num()) {
 			return true;
 		}
-		else if (name == other.get_triage_num() && age < other.get_arrival_time()) {
+		else if (triage_num == other.get_triage_num() && arrival_time < other.get_arrival_time()) {
 			return true;
 		}
 		else
