@@ -18,6 +18,7 @@ public:
 	int get_time_of() {
 		return time_of;
 	}
+
 };
 
 
@@ -32,6 +33,7 @@ public:
 	int triage_num;
 
 	//Constructor
+	Patient(){}
 	Patient(std::string pname, int p_triage_num, int p_treat_time, int p_arrival_time) {
 		name = pname;
 		triage_num = p_triage_num;
@@ -40,6 +42,13 @@ public:
 	}
 	void add_visit(int out_time) {
 		visits.push_back(Treatment(triage_num, out_time - arrival_time));
+	}
+	void show_treatment() {
+		for (auto i : visits) {
+			std::cout << "Severity of: " << i.get_triage() << std::endl;
+			std::cout << "In hospital for: " << i.get_time_of() << " minutes." << std::endl;
+		}
+
 	}
 	//Accessor for triage_num
 	int get_triage_num() const {
