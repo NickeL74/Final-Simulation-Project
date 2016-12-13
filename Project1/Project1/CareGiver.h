@@ -1,5 +1,6 @@
 #ifndef _Care_Giver_
 #define _Care_Giver_
+#include "Patient.h"
 
 class CareGiver {
 protected:
@@ -11,13 +12,14 @@ protected:
 
 class Doctor : public CareGiver {
 public:
-	Doctor() {
+	Doctor(){
 		max_treat = 20;
+		
 	}
 };
 class Nurse : public CareGiver {
 public:
-	Nurse() {
+	Nurse(){
 		max_treat = 10;
 	}
 };
